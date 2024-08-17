@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "d8559773-0e50-4f54-b756-1251b987346d",
+		"name": "News",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6672802"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Yurii\",\r\n    \"password\":\"1234\",\r\n    \"email\":\"test3@bk.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/registration",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"registration"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = JSON.parse(responseBody)\r",
+									"pm.environment.set(\"TOKEN\", json.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"esther.murazik@example.org\",\r\n    \"password\":\"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/logout",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get one post from a news",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/news/200",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"news",
+						"200"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all posts from a news",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/news?title=Recusandae itaque laborum",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"news"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "filter",
+							"value": "last_month",
+							"disabled": true
+						},
+						{
+							"key": "filter",
+							"value": "last_6months",
+							"disabled": true
+						},
+						{
+							"key": "title",
+							"value": "Recusandae itaque laborum"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create post for a news",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "It is news from Postman",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "It is description from Postman",
+							"type": "text"
+						},
+						{
+							"key": "imgNews",
+							"type": "file",
+							"src": "/D:/torretnts/Wallpapers-Assorti67/1984-chevrolet-camaro-z28-jw-3840x2160.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/news",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"news"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete post of anews by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}/news/201",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"news",
+						"201"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
